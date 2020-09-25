@@ -83,7 +83,7 @@ function App() {
 
   function getMovieTVList(pageNum = 1) {
     fetch(
-      `${baseUrl}${listToGet}?api_key=${apiKey}&language=en-US&page=${pageNum}&include_adult=false${
+      `${baseUrl}${listToGet}?api_key=${apiKey}&language=en-US&page=${pageNumber}&include_adult=false${
         isSearching ? "&query=" + searchQuery : ""
       }`,
       // `${baseUrl}movie/now_playing?api_key=${apiKey}&language=en-US&page=${
@@ -157,9 +157,10 @@ function App() {
       currentPage--;
       setPageNumber(currentPage);
     }
-    getMovieTVList(currentPage);
+    // getMovieTVList(currentPage);
     window.scrollTo(0, 0);
   }
+
 
   function handleNextPageClick() {
     let currentPage = pageNumber;
@@ -167,7 +168,7 @@ function App() {
       currentPage++;
       setPageNumber(currentPage);
     }
-    getMovieTVList(currentPage);
+    // getMovieTVList(currentPage);
     window.scrollTo(0, 0);
   }
 
@@ -187,7 +188,7 @@ function App() {
     else {
       setIsSearching(false);
     }
-    
+    setPageNumber(1);
     setListToGet(listData);
   }
 
@@ -204,7 +205,7 @@ function App() {
 
   React.useEffect(() => {
     getMovieTVList();
-  },[listToGet])
+  },[listToGet, pageNumber])
 
 
 
