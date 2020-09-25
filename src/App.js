@@ -177,8 +177,8 @@ function App() {
 
 
 
-  function handleSearchQueryChange(e) {
-    setSearchQuery(e.target.value);
+  function handleSearchQueryChange(input) {
+    setSearchQuery(input.current.value);
   }
 
   function handleChangeListToGet(listData) {
@@ -205,9 +205,10 @@ function App() {
 
   React.useEffect(() => {
     getMovieTVList();
-  },[listToGet, pageNumber])
+  },[listToGet, pageNumber, searchQuery])
 
 
+  const searchQueryInput = React.useRef();
 
 
 
@@ -265,11 +266,12 @@ function App() {
         <div className="cards-list-container">
           <form>
             <label>enter search query</label>
-            <input onChange={handleSearchQueryChange} />
+            <input ref={searchQueryInput} />
             <button
               type="submit"
               onClick={(e) => {
                 e.preventDefault();
+                handleSearchQueryChange(searchQueryInput)
                 handleChangeListToGet(listToGet === moviesPlaying ? moviesSearch : tvSearch)
                 // getMovieSearch();
               }}
@@ -314,7 +316,7 @@ function App() {
           <button onClick={handlePreviousPageClick}>Previous page</button>
           <button onClick={handleNextPageClick}>Next page</button>
           <footer className="footer">
-            <p>cc alvin</p>
+            <p>cc alvin 2020</p>
           </footer>
         </div>
       </div>
