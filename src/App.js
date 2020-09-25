@@ -181,6 +181,13 @@ function App() {
   }
 
   function handleChangeListToGet(listData) {
+    if (listData === moviesSearch || listData === tvSearch){
+      setIsSearching(true);
+    } 
+    else {
+      setIsSearching(false);
+    }
+    
     setListToGet(listData);
   }
 
@@ -262,7 +269,8 @@ function App() {
               type="submit"
               onClick={(e) => {
                 e.preventDefault();
-                getMovieSearch();
+                handleChangeListToGet(listToGet === moviesPlaying ? moviesSearch : tvSearch)
+                // getMovieSearch();
               }}
             >
               search
