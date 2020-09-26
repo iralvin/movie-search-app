@@ -1,12 +1,26 @@
 import React from "react";
 import "./App.css";
-
 import { apiKey } from "./apiKey.js";
 
-import Sidebar from "./Sidebar";
-import MovieCard from "./MovieCard";
-import noPostFound from "./no-poster-found.png";
-import logo from "./movie-logo.png";
+import {
+  baseUrl,
+  baseImageUrl,
+  moviesPlaying,
+  moviesSearch,
+  tvPopular,
+  tvSearch,
+  fetchOptions,
+} from "./constants/constants";
+
+import GenreContext from "./contexts/GenreContext";
+import MovieTVListContext from "./contexts/MovieTVListContext";
+
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import SearchForm from "./components/SearchForm";
+import MovieTVList from "./components/MovieTVList";
+import Footer from "./components/Footer";
+
 
 function App() {
   const [genreList, setGenreList] = React.useState({
@@ -17,50 +31,25 @@ function App() {
     results: [],
   });
 
-  const [tvListResults, setTVListResults] = React.useState({
-    results: [],
-  });
 
-  const [listType, setListType] = React.useState("movie");                // movie.........search...tv........search
-  const [listCategory, setListCategory] = React.useState("now_playing");  // now_playing...movie....popular...tv
-  
-  
-  const [genreListType, setGenreListType] = React.useState("movie");      // movie.....tvlist
+
+  // const [listType, setListType] = React.useState("movie"); // movie.........search...tv........search
+  // const [listCategory, setListCategory] = React.useState("now_playing"); // now_playing...movie....popular...tv
+
+  const [genreListType, setGenreListType] = React.useState("movie"); // movie.....tvlist
   const [searchQuery, setSearchQuery] = React.useState("");
   const [pageNumber, setPageNumber] = React.useState(1);
 
-  const baseUrl = "https://api.themoviedb.org/3/";
-  const baseImageUrl = "http://image.tmdb.org/t/p/w200";
-
-  const moviesPlaying = "movie/now_playing";
-  const moviesSearch = "search/movie";
-  const tvPopular = "tv/popular";
-  const tvSearch = "search/tv";
   const [listToGet, setListToGet] = React.useState(moviesPlaying);
   const [isSearching, setIsSearching] = React.useState(false);
-
-
-  const fetchOptions = {
-    method: "GET",
-    headers: {
-      "Content-type": "application/json",
-      authorization: apiKey,
-    },
-  };
-
-  
-
 
   window.onbeforeunload = () => {
     window.scrollTo(0, 0);
   };
 
-
-
-
   function getGenreList() {
     fetch(
-      `${baseUrl}genre/movie/list?api_key=${apiKey}&language=en-US`,
+      `${baseUrl}genre/${genreListType}/list?api_key=${apiKey}&language=en-US`,
       fetchOptions
     )
       .then((res) => {
@@ -76,10 +65,6 @@ function App() {
       })
       .catch((err) => console.log(err));
   }
-
-
-
-
 
   function getMovieTVList(pageNum = 1) {
     fetch(
@@ -104,63 +89,15 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-
-
-
-
-
-  function getMovieSearch(pageNum = 1) {
-    // e.preventDefault()
-
-    fetch(
-      `${baseUrl}search/${listType}?api_key=${apiKey}&query=${searchQuery}&page=${
-        pageNum + ""
-      }&include_adult=false`,
-
-      fetchOptions
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .then((result) => {
-        console.log(result);
-
-        setMovieTVListResults(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  // function getTVPopularList(pageNum = 1) {
-  //   fetch(
-  //     "https://api.themoviedb.org/3/tv/popular?api_key=5639a84b2a79f72c3ef1e84caed995ac&language=en-US&page=1",
-  //     fetchOptions
-  //   )
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         return res.json();
-  //       }
-  //     })
-  //     .then((res) => {
-  //       setMovieTVListResults(res);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
-
-
   function handlePreviousPageClick() {
     let currentPage = pageNumber;
-    if (currentPage > 1){
+    if (currentPage > 1) {
       currentPage--;
       setPageNumber(currentPage);
     }
     // getMovieTVList(currentPage);
     window.scrollTo(0, 0);
   }
-
 
   function handleNextPageClick() {
     let currentPage = pageNumber;
@@ -172,152 +109,74 @@ function App() {
     window.scrollTo(0, 0);
   }
 
-
-  
-
-
-
   function handleSearchQueryChange(input) {
-    setSearchQuery(input.current.value);
+    setSearchQuery(input);
   }
 
   function handleChangeListToGet(listData) {
-    if (listData === moviesSearch || listData === tvSearch){
+    if (listData === moviesSearch || listData === tvSearch) {
       setIsSearching(true);
-    } 
-    else {
+    } else {
       setIsSearching(false);
     }
+
     setPageNumber(1);
     setListToGet(listData);
+    handleChangeGenreList(listData);
   }
 
+  function handleChangeGenreList(currentMovieTVListToGet){
+    if (currentMovieTVListToGet === moviesPlaying){
+      setGenreListType("movie");
+    }
+    else if (currentMovieTVListToGet === tvPopular){
+      setGenreListType("tv");
+    }
 
-
-
+  }
 
   React.useEffect(() => {
     getGenreList();
-    // getMovieTVList("movie", "now_playing");
-  }, []);
-
-
+  }, [genreListType]);
 
   React.useEffect(() => {
     getMovieTVList();
-  },[listToGet, pageNumber, searchQuery])
-
-
-  const searchQueryInput = React.useRef();
-
-
+  }, [listToGet, pageNumber, searchQuery]);
 
   return (
     <div className="App">
-      {/* INSERT HEADER COMPONENT HERE */}
-      <header className="header">
-        <img
-          className="header__logo"
-          src={logo}
-          alt="logo"
-          onClick={() => {
-            window.location.reload();
-          }}
-        />
-        <ul className="header__nav-menu">
-          <li
-            className="header__nav-menu_link"
-            onClick={() => {
-              handleChangeListToGet(moviesPlaying);
-              // getMovieTVList();
-
-            }}
-          >
-            Movies
-          </li>
-          <li
-            className="header__nav-menu_link"
-            onClick={() => {
-              // getTVPopularList();
-              handleChangeListToGet(tvPopular);
-
-              // getMovieTVList();
-              // handleChangeSearchType("tv");
-            }}
-          >
-            TV Shows
-          </li>
-        </ul>
-      </header>
+      <Header
+        onMovieHeaderClick={() => {
+          handleChangeListToGet(moviesPlaying);
+        }}
+        onTVHeaderClick={() => {
+          handleChangeListToGet(tvPopular);
+        }}
+      />
 
       <div className="main-container">
-        <div className="side-navbar-container">
-          <ul className="side-navbar">
-            {genreList.genres.map((genre, index) => {
-              return (
-                <li className="side-navbar__nav-option" key={index}>
-                  {genre.name}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <GenreContext.Provider value={genreList}>
+          <Sidebar />
+        </GenreContext.Provider>
 
         <div className="cards-list-container">
-          <form>
-            <label>enter search query</label>
-            <input ref={searchQueryInput} />
-            <button
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSearchQueryChange(searchQueryInput)
-                handleChangeListToGet(listToGet === moviesPlaying ? moviesSearch : tvSearch)
-                // getMovieSearch();
-              }}
-            >
-              search
-            </button>
-          </form>
-          {/* <div>
-            <button
-              className="button button_search-type"
-              onClick={() => {
-                handleChangeSearchType("movie");
-              }}
-            >
-              Search for movies
-            </button>
+          <SearchForm
+            onSearchQueryChange={(input) => {
+              handleSearchQueryChange(input);
+            }}
+            currentListToGet={listToGet}
+            onListChange={(listData) => {
+              handleChangeListToGet(listData);
+            }}
+          />
 
-            <button
-              className="button button_search-type"
-              onClick={() => {
-                handleChangeSearchType("tv");
-              }}
-            >
-              Search for tv shows
-            </button>
-          </div> */}
-          <ul className="cards-list">
-            {movieTVListResults.results.map((result, index) => {
-              return (
-                <MovieCard
-                  key={index}
-                  src={
-                    result["poster_path"] !== null
-                      ? baseImageUrl + result["poster_path"]
-                      : noPostFound
-                  }
-                  title={result.title || result.name}
-                />
-              );
-            })}
-          </ul>
+          <MovieTVListContext.Provider value={movieTVListResults}>
+            <MovieTVList />
+          </MovieTVListContext.Provider>
+
           <button onClick={handlePreviousPageClick}>Previous page</button>
           <button onClick={handleNextPageClick}>Next page</button>
-          <footer className="footer">
-            <p>cc alvin 2020</p>
-          </footer>
+          <Footer />
         </div>
       </div>
     </div>

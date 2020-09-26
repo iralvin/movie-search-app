@@ -1,3 +1,16 @@
+### THINGS TO DO
+- fix bug when performing search with blank input (causes error)
+- change genre list depending if movies or tv shows is selected
+- add function to click movie/tv show card to show more details
+- add function to click genre category to filter results
+- refactor code
+- encrypt apikey
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
