@@ -172,26 +172,33 @@ function App() {
 
           <MovieTVListContext.Provider value={movieTVListResults}>
             <Switch>
+              
               <Route exact path="/">
                 <h1>hello, welcome to entertainment search</h1>
               </Route>
-              <Route exact path="/movies">
+
+              <Route exact path="/movies/:movieTitle">
+                <MovieTVDisplay />
+              </Route>
+
+              <Route path="/movies">
                 <MovieTVList
                   onLoad={() => {
                     handleChangeListToGet(moviesPlaying);
                   }}
+                  listToGet
                 />
               </Route>
-              <Route exact path="/tvshows">
+
+              <Route path="/tvshows">
                 <MovieTVList
                   onLoad={() => {
                     handleChangeListToGet(tvPopular);
                   }}
+                  listToGet={listToGet}
                 />
               </Route>
-              {/* <Route path="/movies/:movieTitle">
-                <MovieTVDisplay />
-              </Route> */}
+
             </Switch>
           </MovieTVListContext.Provider>
 

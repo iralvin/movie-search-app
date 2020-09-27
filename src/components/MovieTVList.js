@@ -19,8 +19,9 @@ function MovieTVList(props) {
   const movieTVListResults = React.useContext(MovieTVListContext);
 
   React.useEffect(() => {
+    console.log("has loaded ")
     props.onLoad();
-  }, []);
+  }, [props.listToGet]);
 
   return (
     <ul className="cards-list">
