@@ -175,11 +175,18 @@ function App() {
               </Route>
 
               <Route exact path="/movies/:title">
-                <MovieTVDisplay selectedTitle={selectedMovieTV}/>
+                <MovieTVDisplay
+                  selectedTitle={selectedMovieTV}
+                  mediaType="movie"
+                  genreList={genreList}
+                />
               </Route>
 
               <Route exact path="/tvshows/:title">
-                <MovieTVDisplay selectedTitle={selectedMovieTV} />
+                <MovieTVDisplay
+                  selectedTitle={selectedMovieTV}
+                  mediaType="tv"
+                />
               </Route>
 
               <Route path="/movies">

@@ -53,3 +53,12 @@ body {
 .root {
   box-sizing: border-box;
 }
+
+
+.title-details{
+}
+
+.title-details__container{
+  display: flex;
+  justify-content: space-around;
+}
