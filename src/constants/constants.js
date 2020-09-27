@@ -1,7 +1,8 @@
 import { apiKey } from "../apiKey.js";
 
 export const baseUrl = "https://api.themoviedb.org/3/";
-export const baseImageUrl = "http://image.tmdb.org/t/p/w200";
+export const baseImageUrlw200 = "http://image.tmdb.org/t/p/w200";
+export const baseImageUrlw500 = "http://image.tmdb.org/t/p/w500";
 
 export const moviesPlaying = "movie/now_playing";
 export const moviesSearch = "search/movie";

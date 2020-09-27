@@ -6,11 +6,11 @@ function Sidebar(props) {
   const genreList = React.useContext(GenreContext);
 
   return (
-    <div className="side-navbar-container">
-      <ul className="side-navbar">
+    <div className="sidebar">
+      <ul className="sidebar__nav-menu">
         {genreList.genres.map((genre, index) => {
           return (
-            <li className="side-navbar__nav-option" key={index}>
+            <li className="sidebar__nav-menu_nav-option" key={index}>
               {genre.name}
             </li>
           );

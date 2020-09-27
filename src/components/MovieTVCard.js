@@ -3,15 +3,17 @@ import ReactDOM from "react-dom";
 import { Switch, Route, Link, NavLink, useRouteMatch } from "react-router-dom";
 
 function MovieTVCard(props) {
-  const {path} = useRouteMatch();
-  console.log(path)
+  const { path } = useRouteMatch();
+  console.log(path);
   return (
     <li className="cards-list__item">
-      <NavLink to={`${path}/${props.cardDetails.title || props.cardDetails.name}`}>
+      <NavLink
+        to={`${path}/${props.cardDetails.title || props.cardDetails.name}`}
+      >
         <div
           className="cards-list__item_details"
           onClick={() => {
-            console.log(props.cardDetails);
+            props.onCardClick(props.cardDetails);
           }}
         >
           <img className="cards-list__item_image" src={props.src} alt="" />

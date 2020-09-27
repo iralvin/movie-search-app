@@ -1,0 +1,8 @@
+@import url("./cards-list/cards-list.css");
+
+.cards-list-container {
+    width: 100%;
+    height: 100%;
+    /* background-color: #61dafb; */
+    margin-left: 225px;
+  }

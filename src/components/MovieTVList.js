@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 import {
   baseUrl,
-  baseImageUrl,
+  baseImageUrlw200,
   moviesPlaying,
   moviesSearch,
   tvPopular,
@@ -28,11 +28,12 @@ function MovieTVList(props) {
       {movieTVListResults.results.map((result, index) => {
         return (
           <MovieTVCard
+          onCardClick={(selectedTitle)=> props.onCardClick(selectedTitle)}
             cardDetails={result}
             key={index}
             src={
               result["poster_path"] !== null
-                ? baseImageUrl + result["poster_path"]
+                ? baseImageUrlw200 + result["poster_path"]
                 : noPosterFound
             }
             title={result.title || result.name}

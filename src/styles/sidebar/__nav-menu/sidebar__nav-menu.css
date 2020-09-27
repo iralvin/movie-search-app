@@ -1,0 +1,11 @@
+@import url("./_nav-option/sidebar__nav-menu_nav-option.css");
+
+.sidebar__nav-menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: white;
+  font-size: 1.5rem;
+
+  /* float: left; */
+}

@@ -1,0 +1,12 @@
+@import url("./__logo/header__logo.css");
+@import url("./__nav-menu/header__nav-menu.css");
+@import url("./__nav-menu/_link/header__nav-menu_link.css");
+
+.header {
+  width: 100%;
+  background-color: black;
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+}

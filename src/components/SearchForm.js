@@ -12,7 +12,7 @@ import {
 
 import {
   baseUrl,
-  baseImageUrl,
+  baseImageUrlw200,
   moviesPlaying,
   moviesSearch,
   tvPopular,

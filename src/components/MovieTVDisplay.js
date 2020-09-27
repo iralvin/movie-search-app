@@ -1,14 +1,43 @@
-import React from 'react';
-import { Switch, Route, Link, NavLink, useRouteMatch, useParams } from "react-router-dom";
+import React from "react";
 
+import {
+  baseUrl,
+  baseImageUrlw200,
+  baseImageUrlw500,
+  moviesPlaying,
+  moviesSearch,
+  tvPopular,
+  tvSearch,
+  fetchOptions,
+} from "../constants/constants";
 
-function MovieTVDisplay(props){
-    let {movieTitle} = useParams();
-    return(
-        <div className="movie-tv-details-container">
-            <h1>{`hello world ${movieTitle}`}</h1>
-        </div>
-    )
+import {
+  Switch,
+  Route,
+  Link,
+  NavLink,
+  useRouteMatch,
+  useParams,
+} from "react-router-dom";
+
+function MovieTVDisplay(props) {
+  let { title } = useParams();
+  let selectedTitle = props.selectedTitle;
+  console.log(props.selectedTitle);
+
+  // let selectedTitle;
+  // React.useEffect(() => {
+  //     selectedTitle = props.selectedTitle;
+  //     console.log(selectedTitle)
+  // },[props.selectedTitle])
+
+  return (
+    <div className="title-details-container">
+      <h1>{`${selectedTitle.title}`}</h1>
+      <img src={baseImageUrlw500+selectedTitle["poster_path"]} alt=""/>
+      div.
+    </div>
+  );
 }
 
 export default MovieTVDisplay;

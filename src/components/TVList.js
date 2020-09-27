@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 import {
   baseUrl,
-  baseImageUrl,
+  baseImageUrlw200,
   moviesPlaying,
   moviesSearch,
   tvPopular,
@@ -30,7 +30,7 @@ function TVList(props) {
             key={index}
             src={
               result["poster_path"] !== null
-                ? baseImageUrl + result["poster_path"]
+                ? baseImageUrlw200 + result["poster_path"]
                 : noPosterFound
             }
             title={result.name}

@@ -1,0 +1,15 @@
+@import url("./__nav-menu/sidebar__nav-menu.css");
+
+.sidebar {
+  /* min-width: 200px; */
+  min-width: 225px;
+  height: 100vh;
+  position: fixed;
+  background-color: rgb(68, 68, 68);
+  border-right: 1px;
+  border-right-color: black;
+  border-right-style: solid;
+  border-left: 1px;
+  border-left-color: black;
+  border-left-style: solid;
+}

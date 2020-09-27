@@ -1,0 +1,15 @@
+.sidebar__nav-menu_nav-option {
+  padding: 5px;
+  border-top: 1px;
+  border-top-color: black;
+  border-top-style: solid;
+}
+.sidebar__nav-menu_nav-option:last-child {
+  border-bottom: 1px;
+  border-bottom-color: black;
+  border-bottom-style: solid;
+}
+.sidebar__nav-menu_nav-option:hover {
+  background-color: darkslateblue;
+  cursor: pointer;
+}

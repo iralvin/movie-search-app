@@ -12,7 +12,7 @@ import {
 
 import {
   baseUrl,
-  baseImageUrl,
+  baseImageUrlw200,
   moviesPlaying,
   moviesSearch,
   tvPopular,
@@ -47,7 +47,7 @@ function App() {
   const [listToGet, setListToGet] = React.useState(moviesPlaying);
   const [isSearching, setIsSearching] = React.useState(false);
 
-  let { movieTitle } = useParams();
+  const [selectedMovieTV, setSelectedMovieTV] = React.useState("rogue");
 
   window.onbeforeunload = () => {
     window.scrollTo(0, 0);
@@ -141,8 +141,6 @@ function App() {
     getMovieTVList();
   }, [listToGet, pageNumber, searchQuery]);
 
-  // const [selectedMovieTV, setSelectedMovieTV] = React.useState("rogue");
-
   return (
     <div className="App">
       <Header
@@ -172,13 +170,16 @@ function App() {
 
           <MovieTVListContext.Provider value={movieTVListResults}>
             <Switch>
-              
               <Route exact path="/">
                 <h1>hello, welcome to entertainment search</h1>
               </Route>
 
-              <Route exact path="/movies/:movieTitle">
-                <MovieTVDisplay />
+              <Route exact path="/movies/:title">
+                <MovieTVDisplay selectedTitle={selectedMovieTV}/>
+              </Route>
+
+              <Route exact path="/tvshows/:title">
+                <MovieTVDisplay selectedTitle={selectedMovieTV} />
               </Route>
 
               <Route path="/movies">
@@ -187,6 +188,10 @@ function App() {
                     handleChangeListToGet(moviesPlaying);
                   }}
                   listToGet
+                  onCardClick={(selectedTitle) => {
+                    console.log(selectedTitle);
+                    setSelectedMovieTV(selectedTitle);
+                  }}
                 />
               </Route>
 
@@ -198,7 +203,6 @@ function App() {
                   listToGet={listToGet}
                 />
               </Route>
-
             </Switch>
           </MovieTVListContext.Provider>
 

@@ -1,0 +1,12 @@
+@import url("./__item/cards-list__item.css");
+
+.cards-list {
+  margin: auto;
+  /* width: 80%; */
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 250px);
+  /* grid-template-rows: repeat(auto-fit, minmax(300px,5fr)); */
+  gap: 20px 18px;
+  justify-content: center;
+}

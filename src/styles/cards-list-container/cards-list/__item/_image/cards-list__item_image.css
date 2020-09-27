@@ -1,0 +1,9 @@
+.cards-list__item_image {
+  border-radius: 10%;
+  /* height:300px; */
+
+  /* width: 250px;
+    height: 300px; */
+  object-fit: cover;
+  object-position: center;
+}

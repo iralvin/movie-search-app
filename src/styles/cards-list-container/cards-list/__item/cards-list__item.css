@@ -1,0 +1,11 @@
+@import url("./_details/cards-list__item_details.css");
+@import url("./_image/cards-list__item_image.css");
+@import url("./_title-container/cards-list__item_title-container.css");
+@import url("./_title/cards-list__item_title.css");
+
+.cards-list__item {
+    margin: 10px;
+    padding: 0;
+    height: 350px;
+    /* border: 1px solid red; */
+  }
