@@ -1,7 +1,7 @@
 import React from "react";
+import { Switch, Route, Link, NavLink, Redirect } from "react-router-dom";
 
 import logo from "../images/movie-logo.png";
-
 
 function Header(props) {
   return (
@@ -10,20 +10,20 @@ function Header(props) {
         className="header__logo"
         src={logo}
         alt="logo"
-        onClick={()=>{window.location.reload();}}
+        onClick={() => {
+          window.location.href = "/";
+        }}
       />
+
       <ul className="header__nav-menu">
         <li
           className="header__nav-menu_link"
           onClick={props.onMovieHeaderClick}
         >
-          Movies
+          <NavLink to="/movies">Movies</NavLink>
         </li>
-        <li
-          className="header__nav-menu_link"
-          onClick={props.onTVHeaderClick}
-        >
-          TV Shows
+        <li className="header__nav-menu_link" onClick={props.onTVHeaderClick}>
+          <NavLink to="/tvshows">TV Shows</NavLink>
         </li>
       </ul>
     </header>

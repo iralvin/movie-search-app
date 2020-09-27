@@ -15,7 +15,7 @@ import noPosterFound from "../images/no-poster-found.png";
 import MovieTVCard from "./MovieTVCard";
 import MovieTVListContext from "../contexts/MovieTVListContext";
 
-function MovieTVList(props) {
+function TVList(props) {
   const movieTVListResults = React.useContext(MovieTVListContext);
 
   React.useEffect(() => {
@@ -27,14 +27,13 @@ function MovieTVList(props) {
       {movieTVListResults.results.map((result, index) => {
         return (
           <MovieTVCard
-            cardDetails={result}
             key={index}
             src={
               result["poster_path"] !== null
                 ? baseImageUrl + result["poster_path"]
                 : noPosterFound
             }
-            title={result.title || result.name}
+            title={result.name}
           />
         );
       })}
@@ -42,4 +41,4 @@ function MovieTVList(props) {
   );
 }
 
-export default MovieTVList;
+export default TVList;

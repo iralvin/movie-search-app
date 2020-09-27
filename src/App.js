@@ -1,6 +1,14 @@
 import React from "react";
 import "./App.css";
 import { apiKey } from "./apiKey.js";
+import {
+  Switch,
+  Route,
+  Link,
+  NavLink,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom";
 
 import {
   baseUrl,
@@ -19,8 +27,9 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import SearchForm from "./components/SearchForm";
 import MovieTVList from "./components/MovieTVList";
+import MovieTVDisplay from "./components/MovieTVDisplay";
+import TVList from "./components/TVList";
 import Footer from "./components/Footer";
-
 
 function App() {
   const [genreList, setGenreList] = React.useState({
@@ -31,17 +40,14 @@ function App() {
     results: [],
   });
 
-
-
-  // const [listType, setListType] = React.useState("movie"); // movie.........search...tv........search
-  // const [listCategory, setListCategory] = React.useState("now_playing"); // now_playing...movie....popular...tv
-
   const [genreListType, setGenreListType] = React.useState("movie"); // movie.....tvlist
   const [searchQuery, setSearchQuery] = React.useState("");
   const [pageNumber, setPageNumber] = React.useState(1);
 
   const [listToGet, setListToGet] = React.useState(moviesPlaying);
   const [isSearching, setIsSearching] = React.useState(false);
+
+  let { movieTitle } = useParams();
 
   window.onbeforeunload = () => {
     window.scrollTo(0, 0);
@@ -66,15 +72,11 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  function getMovieTVList(pageNum = 1) {
+  function getMovieTVList() {
     fetch(
       `${baseUrl}${listToGet}?api_key=${apiKey}&language=en-US&page=${pageNumber}&include_adult=false${
         isSearching ? "&query=" + searchQuery : ""
       }`,
-      // `${baseUrl}movie/now_playing?api_key=${apiKey}&language=en-US&page=${
-      //   pageNum + ""
-      // }`
-
       fetchOptions
     )
       .then((res) => {
@@ -95,7 +97,6 @@ function App() {
       currentPage--;
       setPageNumber(currentPage);
     }
-    // getMovieTVList(currentPage);
     window.scrollTo(0, 0);
   }
 
@@ -105,7 +106,6 @@ function App() {
       currentPage++;
       setPageNumber(currentPage);
     }
-    // getMovieTVList(currentPage);
     window.scrollTo(0, 0);
   }
 
@@ -125,14 +125,12 @@ function App() {
     handleChangeGenreList(listData);
   }
 
-  function handleChangeGenreList(currentMovieTVListToGet){
-    if (currentMovieTVListToGet === moviesPlaying){
+  function handleChangeGenreList(currentMovieTVListToGet) {
+    if (currentMovieTVListToGet === moviesPlaying) {
       setGenreListType("movie");
-    }
-    else if (currentMovieTVListToGet === tvPopular){
+    } else if (currentMovieTVListToGet === tvPopular) {
       setGenreListType("tv");
     }
-
   }
 
   React.useEffect(() => {
@@ -142,6 +140,8 @@ function App() {
   React.useEffect(() => {
     getMovieTVList();
   }, [listToGet, pageNumber, searchQuery]);
+
+  // const [selectedMovieTV, setSelectedMovieTV] = React.useState("rogue");
 
   return (
     <div className="App">
@@ -171,14 +171,35 @@ function App() {
           />
 
           <MovieTVListContext.Provider value={movieTVListResults}>
-            <MovieTVList />
+            <Switch>
+              <Route exact path="/">
+                <h1>hello, welcome to entertainment search</h1>
+              </Route>
+              <Route exact path="/movies">
+                <MovieTVList
+                  onLoad={() => {
+                    handleChangeListToGet(moviesPlaying);
+                  }}
+                />
+              </Route>
+              <Route exact path="/tvshows">
+                <MovieTVList
+                  onLoad={() => {
+                    handleChangeListToGet(tvPopular);
+                  }}
+                />
+              </Route>
+              {/* <Route path="/movies/:movieTitle">
+                <MovieTVDisplay />
+              </Route> */}
+            </Switch>
           </MovieTVListContext.Provider>
 
           <button onClick={handlePreviousPageClick}>Previous page</button>
           <button onClick={handleNextPageClick}>Next page</button>
-          <Footer />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
