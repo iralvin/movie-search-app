@@ -7,6 +7,8 @@
 
 - pass card clicked back to App.js to pass into movieTVdisplay.js
 
+- SET URL LINK TO USE :ID AND THEN TAKE USEPARAMS() {ID} TO 
+    SEARCH FOR MOVIE/TV SHOW INFO TO DISPLAY WHEN CLICKED
 
 
 
