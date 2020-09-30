@@ -8,13 +8,13 @@ function MovieTVCard(props) {
   return (
     <li className="cards-list__item">
       <NavLink
-        to={`${path}/${props.cardDetails.title || props.cardDetails.name}`}
+        to={`${path}/${props.cardDetails.title || props.cardDetails.name}/${props.cardDetails.id}`}
       >
         <div
           className="cards-list__item_details"
-          onClick={() => {
-            props.onCardClick(props.cardDetails);
-          }}
+          // onClick={() => {
+          //   props.onCardClick(props.cardDetails);
+          // }}
         >
           <img className="cards-list__item_image" src={props.src} alt="" />
           <div className="cards-list__item_title-container">

@@ -174,22 +174,22 @@ function App() {
                 <h1>hello, welcome to entertainment search</h1>
               </Route>
 
-              <Route exact path="/movies/:title">
+              <Route exact path="/:media/:title/:id">
                 <MovieTVDisplay
-                  selectedTitle={selectedMovieTV}
-                  mediaType="movie"
-                  genreList={genreList}
+                  // selectedTitle={selectedMovieTV}
+                  // mediaType="movie"
+                  // genreList={genreList}
                 />
               </Route>
 
-              <Route exact path="/tvshows/:title">
+              {/* <Route exact path="/tvshows/:title/:id">
                 <MovieTVDisplay
                   selectedTitle={selectedMovieTV}
                   mediaType="tv"
                 />
-              </Route>
+              </Route> */}
 
-              <Route path="/movies">
+              <Route path="/movie">
                 <MovieTVList
                   onLoad={() => {
                     handleChangeListToGet(moviesPlaying);
@@ -202,7 +202,7 @@ function App() {
                 />
               </Route>
 
-              <Route path="/tvshows">
+              <Route path="/tv">
                 <MovieTVList
                   onLoad={() => {
                     handleChangeListToGet(tvPopular);

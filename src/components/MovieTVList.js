@@ -28,7 +28,7 @@ function MovieTVList(props) {
       {movieTVListResults.results.map((result, index) => {
         return (
           <MovieTVCard
-          onCardClick={(selectedTitle)=> props.onCardClick(selectedTitle)}
+          // onCardClick={(selectedTitle)=> props.onCardClick(selectedTitle)}
             cardDetails={result}
             key={index}
             src={

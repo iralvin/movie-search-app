@@ -20,10 +20,10 @@ function Header(props) {
           className="header__nav-menu_link"
           onClick={props.onMovieHeaderClick}
         >
-          <NavLink to="/movies">Movies</NavLink>
+          <NavLink to="/movie">Movies</NavLink>
         </li>
         <li className="header__nav-menu_link" onClick={props.onTVHeaderClick}>
-          <NavLink to="/tvshows">TV Shows</NavLink>
+          <NavLink to="/tv">TV Shows</NavLink>
         </li>
       </ul>
     </header>

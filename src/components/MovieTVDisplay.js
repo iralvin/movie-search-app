@@ -22,73 +22,102 @@ import {
 } from "react-router-dom";
 
 function MovieTVDisplay(props) {
-  let { title } = useParams();
-  const selectedTitle = props.selectedTitle;
-  const genreList = props.genreList;
-  console.log(props.selectedTitle);
+  const [titleDetails, setTitleDetails] = React.useState({});
+  const [titleCredits, setTitleCredits] = React.useState({});
+  let { media, title, id } = useParams();
 
-  // function getGenreIDList() {
-  //   fetch(
-  //     `${baseUrl}genre/${props.mediaType}/list?api_key=${apiKey}&language=en-US`,
-  //     fetchOptions
-  //   )
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         return res.json();
-  //       }
-  //     })
-  //     .then((data) => {
-  //       genreList = data;
-  //       console.log(genreList)
-
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
-  // getGenreIDList();
-
-  const [titleGenres, setTitleGenres] = React.useState([]);
-
-  function findGenreId() {
-    console.log(selectedTitle.genre_ids);
-    const titlegens = selectedTitle.genre_ids.map((genreId) => {
-      console.log(genreList.genres);
-      return genreList.genres.find((genre) => {
-        if (genre.id === genreId) {
-          return genre.name;
+  function getTitleDetails() {
+    fetch(
+      `${baseUrl}${media}/${id}?api_key=${apiKey}&language=en-US`,
+      fetchOptions
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
         }
+      })
+      .then((data) => {
+        setTitleDetails(data);
       });
-    });
-    setTitleGenres(titlegens);
+  }
+
+  function getTitleCredits() {
+    fetch(
+      `${baseUrl}${media}/${id}/credits?api_key=${apiKey}&language=en-US`,
+      fetchOptions
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        setTitleCredits(data);
+      });
   }
 
   React.useEffect(() => {
-    findGenreId();
+    getTitleDetails();
+    getTitleCredits();
   }, []);
+
+  // React.useEffect(() => {
+  //   console.log(titleCredits.cast);
+  //   function listCredits() {
+  //     if (titleCredits.cast) {
+  //       const creditsList = titleCredits.cast.filter((item, index) => {
+  //         if (item.order < 6) {
+  //           return item;
+  //         }
+  //       });
+  //       console.log(creditsList);
+  //     }
+  //   }
+
+  //   listCredits();
+  // }, [titleCredits]);
 
   return (
     <div className="title-details">
       <div className="title-details__title-container">
-        <h1 className="title-details__title">{selectedTitle.title}</h1>
-        <p className="title-details__rating">{`${selectedTitle.vote_average}/10`}</p>
-        <p className="title-details__rating-votes">{`${selectedTitle.vote_count} votes`}</p>
+        <h1 className="title-details__title">
+          {titleDetails.title || titleDetails.name}
+        </h1>
+        <p className="title-details__rating">{`${titleDetails.vote_average}/10`}</p>
+        <p className="title-details__rating-votes">{`${titleDetails.vote_count} votes`}</p>
       </div>
       <div className="title-details__container">
-        <img src={baseImageUrlw500 + selectedTitle["poster_path"]} alt="" />
+        <img src={baseImageUrlw500 + titleDetails["poster_path"]} alt="" />
         <div className="title-details__descriptors">
           <p className="title-details__release-date">
-            {selectedTitle.release_date}
+            {titleDetails.release_date}
           </p>
-          <p className="title-details__synopsis">{selectedTitle.overview}</p>
+          <p className="title-details__synopsis">{titleDetails.overview}</p>
           <ul className="title-details__genres-list">
-            {titleGenres.map((genre, index) => {
-              return (
-                <li key={index} className="title-details__genres-list_item">
-                  {genre.name}
-                </li>
-              );
-            })}
+            {titleDetails.genres &&
+              titleDetails.genres.map((genre, index) => {
+                return (
+                  <li key={index} className="title-details__genres-list_item">
+                    {genre.name}
+                  </li>
+                );
+              })}
+          </ul>
+
+          <ul className="title-details__credits-list">
+            {titleCredits.cast &&
+              titleCredits.cast.map((item, index) => {
+                if (item.order < 9) {
+                  return (
+                    <li
+                      key={index}
+                      className="title-details__credits-list_item"
+                    >
+                      {`${item.name}: ${item.character}`}
+                    </li>
+                  );
+                }
+              })}
           </ul>
         </div>
       </div>
