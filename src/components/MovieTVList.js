@@ -14,9 +14,11 @@ import noPosterFound from "../images/no-poster-found.png";
 
 import MovieTVCard from "./MovieTVCard";
 import MovieTVListContext from "../contexts/MovieTVListContext";
+import { useParams } from "react-router";
 
 function MovieTVList(props) {
   const movieTVListResults = React.useContext(MovieTVListContext);
+  const {media} = useParams();
 
   React.useEffect(() => {
     console.log("has loaded ")
@@ -29,6 +31,7 @@ function MovieTVList(props) {
         return (
           <MovieTVCard
           // onCardClick={(selectedTitle)=> props.onCardClick(selectedTitle)}
+            mediaType={media}
             cardDetails={result}
             key={index}
             src={

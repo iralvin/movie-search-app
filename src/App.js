@@ -4,6 +4,7 @@ import { apiKey } from "./apiKey.js";
 import {
   Switch,
   Route,
+  Redirect,
   Link,
   NavLink,
   useParams,
@@ -170,31 +171,28 @@ function App() {
 
           <MovieTVListContext.Provider value={movieTVListResults}>
             <Switch>
-              <Route exact path="/">
-                <h1>hello, welcome to entertainment search</h1>
+              <Route exact path="/:media/search/:searchQuery/:title/:id">
+                <MovieTVDisplay />
+              </Route>
+
+              <Route path="/:media/search">
+                <MovieTVList
+                  onLoad={() => {
+                    handleChangeListToGet(listToGet);
+                  }}
+                />
               </Route>
 
               <Route exact path="/:media/:title/:id">
-                <MovieTVDisplay
-                  // selectedTitle={selectedMovieTV}
-                  // mediaType="movie"
-                  // genreList={genreList}
-                />
+                <MovieTVDisplay />
               </Route>
 
-              {/* <Route exact path="/tvshows/:title/:id">
-                <MovieTVDisplay
-                  selectedTitle={selectedMovieTV}
-                  mediaType="tv"
-                />
-              </Route> */}
-
-              <Route path="/movie">
+              <Route exact path="/movie">
                 <MovieTVList
                   onLoad={() => {
                     handleChangeListToGet(moviesPlaying);
                   }}
-                  listToGet
+                  listToGet={listToGet}
                   onCardClick={(selectedTitle) => {
                     console.log(selectedTitle);
                     setSelectedMovieTV(selectedTitle);
@@ -202,7 +200,7 @@ function App() {
                 />
               </Route>
 
-              <Route path="/tv">
+              <Route exact path="/tv">
                 <MovieTVList
                   onLoad={() => {
                     handleChangeListToGet(tvPopular);
@@ -210,6 +208,11 @@ function App() {
                   listToGet={listToGet}
                 />
               </Route>
+
+              <Route exact path="/">
+                <Redirect to="/movie" />
+              </Route>
+
             </Switch>
           </MovieTVListContext.Provider>
 

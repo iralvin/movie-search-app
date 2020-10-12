@@ -8,6 +8,7 @@ import {
   useRouteMatch,
   withRouter,
   useLocation,
+  useParams,
 } from "react-router-dom";
 
 import {
@@ -31,14 +32,25 @@ function SearchForm(props) {
     if (searchInput.current.value !== "") {
       props.onSearchQueryChange(searchInput.current.value);
       props.onListChange(
-        props.currentListToGet === moviesPlaying ? moviesSearch : tvSearch
+        props.currentListToGet === moviesPlaying ||
+          props.currentListToGet === moviesSearch
+          ? moviesSearch
+          : tvSearch
       );
-      console.log(props.history);
-      props.history.replace(`${pathname}/search/${searchInput.current.value}`);
+      // console.log(props.history);
+      // console.log(pathname);
+      // console.log(path);
+      props.history.push(
+        `${
+          props.currentListToGet === moviesPlaying ||
+          props.currentListToGet === moviesSearch
+            ? "/movie"
+            : "/tv"
+        }/search/${searchInput.current.value}`
+      );
       // searchForm.current.reset();
-    }
-    else {
-      console.log("enter search query")
+    } else {
+      console.log("enter search query");
     }
   }
 
