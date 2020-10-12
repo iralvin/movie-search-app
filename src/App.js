@@ -47,7 +47,7 @@ function App() {
 
   const [listToGet, setListToGet] = React.useState(moviesPlaying);
   const [isSearching, setIsSearching] = React.useState(false);
-
+  const [selectedGenreId, setSelectedGenreId] = React.useState("");
   const [selectedMovieTV, setSelectedMovieTV] = React.useState("rogue");
 
   window.onbeforeunload = () => {
@@ -85,9 +85,26 @@ function App() {
           return res.json();
         }
       })
-      .then((movies) => {
-        setMovieTVListResults(movies);
-        console.log(movies);
+      .then((media) => {
+        setMovieTVListResults(media);
+        console.log(media);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function getMovieTVListByGenre(genreId) {
+    fetch(
+      `${baseUrl}discover/movie?api_key=${apiKey}&language=en-US&include_adult=false&page=${pageNumber}&with_genres=${genreId}`,
+      fetchOptions
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then(media => {
+        console.log(media)
+        setMovieTVListResults(media);
       })
       .catch((err) => console.log(err));
   }
@@ -155,7 +172,11 @@ function App() {
 
       <div className="main-container">
         <GenreContext.Provider value={genreList}>
-          <Sidebar />
+          <Sidebar 
+            onGenreClick={(genreId) => {
+              getMovieTVListByGenre(genreId)
+            }}
+          />
         </GenreContext.Provider>
 
         <div className="cards-list-container">
@@ -212,11 +233,11 @@ function App() {
               <Route exact path="/">
                 <Redirect to="/movie" />
               </Route>
-
             </Switch>
           </MovieTVListContext.Provider>
 
           <button onClick={handlePreviousPageClick}>Previous page</button>
+          <p>{pageNumber}</p>
           <button onClick={handleNextPageClick}>Next page</button>
         </div>
       </div>

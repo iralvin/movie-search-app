@@ -37,9 +37,7 @@ function SearchForm(props) {
           ? moviesSearch
           : tvSearch
       );
-      // console.log(props.history);
-      // console.log(pathname);
-      // console.log(path);
+
       props.history.push(
         `${
           props.currentListToGet === moviesPlaying ||

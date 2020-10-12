@@ -10,7 +10,13 @@ function Sidebar(props) {
       <ul className="sidebar__nav-menu">
         {genreList.genres.map((genre, index) => {
           return (
-            <li className="sidebar__nav-menu_nav-option" key={index}>
+            <li className="sidebar__nav-menu_nav-option" 
+              key={index}
+              onClick={() => {
+                props.onGenreClick(genre.id)
+                console.log("clicked genre " + genre.name)
+              }}
+            >
               {genre.name}
             </li>
           );
