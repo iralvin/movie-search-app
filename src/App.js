@@ -16,8 +16,10 @@ import {
   baseImageUrlw200,
   moviesPlaying,
   moviesSearch,
+  moviesDiscover,
   tvPopular,
   tvSearch,
+  tvDiscover,
   fetchOptions,
 } from "./constants/constants";
 
@@ -47,6 +49,7 @@ function App() {
 
   const [listToGet, setListToGet] = React.useState(moviesPlaying);
   const [isSearching, setIsSearching] = React.useState(false);
+  const [isDiscovering, setIsDiscovering] = React.useState(false);
   const [selectedGenreId, setSelectedGenreId] = React.useState("");
   const [selectedMovieTV, setSelectedMovieTV] = React.useState("rogue");
 
@@ -76,8 +79,7 @@ function App() {
   function getMovieTVList() {
     fetch(
       `${baseUrl}${listToGet}?api_key=${apiKey}&language=en-US&page=${pageNumber}&include_adult=false${
-        isSearching ? "&query=" + searchQuery : ""
-      }`,
+        isSearching ? "&query=" + searchQuery : ""}${isDiscovering ? "&with_genres=" + selectedGenreId  : ""}`,
       fetchOptions
     )
       .then((res) => {
@@ -131,6 +133,10 @@ function App() {
     setSearchQuery(input);
   }
 
+  function handleGenreIdSearch(genreId){
+    setSelectedGenreId(genreId);
+  }
+
   function handleChangeListToGet(listData) {
     if (listData === moviesSearch || listData === tvSearch) {
       setIsSearching(true);
@@ -138,11 +144,17 @@ function App() {
       setIsSearching(false);
     }
 
+    if (listData === moviesDiscover || listData === tvDiscover){
+      setIsDiscovering(true);
+    } else {
+      setIsDiscovering(false);
+    }
+
     setPageNumber(1);
     setListToGet(listData);
-    handleChangeGenreList(listData);
   }
 
+  
   function handleChangeGenreList(currentMovieTVListToGet) {
     if (currentMovieTVListToGet === moviesPlaying) {
       setGenreListType("movie");
@@ -164,17 +176,23 @@ function App() {
       <Header
         onMovieHeaderClick={() => {
           handleChangeListToGet(moviesPlaying);
+          setGenreListType("movie");
         }}
         onTVHeaderClick={() => {
           handleChangeListToGet(tvPopular);
+          setGenreListType("tv");
         }}
       />
 
       <div className="main-container">
         <GenreContext.Provider value={genreList}>
           <Sidebar 
-            onGenreClick={(genreId) => {
-              getMovieTVListByGenre(genreId)
+            genreListType={genreListType}
+            handleListToGet={(listData) => {
+              handleChangeListToGet(listData)
+            }}
+            handleGenreIdSearch={(genreId) => {
+              handleGenreIdSearch(genreId);
             }}
           />
         </GenreContext.Provider>

@@ -2,8 +2,30 @@ import React from "react";
 import ReactDOM from "react-dom";
 import GenreContext from "../contexts/GenreContext";
 
+import {
+  baseUrl,
+  baseImageUrlw200,
+  moviesPlaying,
+  moviesSearch,
+  moviesDiscover,
+  tvPopular,
+  tvSearch,
+  tvDiscover,
+  fetchOptions,
+} from "../constants/constants";
+
 function Sidebar(props) {
   const genreList = React.useContext(GenreContext);
+
+
+  function handleOnClick(genreId) {
+    props.handleGenreIdSearch(genreId)
+    props.handleListToGet(props.genreListType === "movie" ? moviesDiscover : tvDiscover)
+    // console.log("clicked genre " + genre.name)
+  }
+
+
+
 
   return (
     <div className="sidebar">
@@ -13,8 +35,8 @@ function Sidebar(props) {
             <li className="sidebar__nav-menu_nav-option" 
               key={index}
               onClick={() => {
-                props.onGenreClick(genre.id)
-                console.log("clicked genre " + genre.name)
+                handleOnClick(genre.id);
+
               }}
             >
               {genre.name}
